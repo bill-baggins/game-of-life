@@ -51,13 +51,10 @@ class Game < Gosu::Window
 
     # Draw "Paused" so that the user knows when it is paused.
     if @pause
-      controls = "Spacebar: Pause/Unpause\n
-                  E: Erase the current board.\n
-                  Left Mouse Button: Turn cell on/off
-                  \nEsc: Close window"
-      @font.draw_text("Paused",   0, 0, 1, @cell_scale, @cell_scale, Gosu::Color::YELLOW)
-      @font.draw_text("Controls:",0, @w_height-100, 1, @cell_scale, @cell_scale, Gosu::Color::YELLOW)
-      @font.draw_text(controls,   0, @w_height-80, 1, @cell_scale, @cell_scale, Gosu::Color::YELLOW)
+      controls = "Spacebar: Pause/Unpaused\nE: Erase the current board.\nLeft Mouse Button: Turn cell on/off\nEsc: Close window"
+      @font.draw_text("Paused",   0, 0, 1, 1, 1, Gosu::Color::YELLOW)
+      @font.draw_text("Controls:",0, @w_height-100, 1, 1, 1, Gosu::Color::YELLOW)
+      @font.draw_text(controls,   0, @w_height-80, 1, 1, 1, Gosu::Color::YELLOW)
     end
   end
 

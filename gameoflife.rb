@@ -1,4 +1,4 @@
-# gosu-gameoflife.rb:
+# gameoflife.rb:
 # Conway's Game of Life implementation in Ruby using the Gosu game library.
 # Written by: Bill Baggins
 

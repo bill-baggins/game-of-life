@@ -2,7 +2,7 @@
 Game of life implementation in Ruby using the Gosu Game Library.
  
 # What is the Game of Life?
-The Game of Life (more specifically Conway's Game of Life) is is a cellular automaton made by mathematician John Horton Conway in 1970. 
+The Game of Life (more specifically Conway's Game of Life) is a cellular automaton made by mathematician John Horton Conway in 1970. 
 It is a zero-player game, meaning that its evolution is determined by its initial state, requiring no further input. 
 One interacts with the Game of Life by creating an initial configuration and observing how it evolves. 
 

@@ -8,8 +8,7 @@
 # 4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 require 'rubygems'
 require 'bundler/setup'
-require 'gosu'
-
+Bundler.require(:default)
 
 class Game < Gosu::Window
   def initialize(width, height)

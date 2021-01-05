@@ -60,7 +60,7 @@ class Game < Gosu::Window
 
   def update
     if @pause
-      # do nothing (prevents grid from updating)
+      # do nothing (prevent grid from updating)
     else
       # Loop through the initial_grid array and determine each of the cell's states.
       (1..@grid_x-2).each do |x|

@@ -12,7 +12,8 @@ Ruby must be installed on your computer. You can install version 2.7.2 of Ruby h
 # How to download and use:
 1. Click on the green "code" button. From its drop-down menu, select "Download ZIP".
 2. Extract the ZIP file.
-3. Open the extracted folder, and double-click on the "gameoflife.rb" file. A console window will launch.
-4. Follow the prompts' directions inside of the console window.
-5. When done, another window should launch with an empty black grid and some yellow text.
+3. Open the extracted folder, and double-click on the "installdependencies.bat" file. This will install the require library for this to work.
+4. Double-click on the "gameoflife.rb" file. A console window will launch.
+5. Follow the prompts' directions inside of the console window.
+6. When done, another window should launch with an empty black grid and some yellow text.
    The text gives directive on further use of the application.

@@ -1,2 +1,2 @@
 source 'https://rubygems.org'
-gem 'gosu'
+gem 'gosu', '1.0.0'

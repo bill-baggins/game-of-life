@@ -1,4 +1,4 @@
-# gameoflife.rb:
+# gosu-gameoflife.rb:
 # Conway's Game of Life implementation in Ruby using the Gosu game library.
 # Written by: Bill Baggins
 
@@ -37,9 +37,6 @@ class Game < Gosu::Window
   end
 
   def draw
-    if @pause
-      sleep(0.050)
-    end
     # Display the cells in the window.
     (1..@grid_x-2).each do |x|
       (1..@grid_y-2).each do |y|

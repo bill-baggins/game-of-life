@@ -8,10 +8,6 @@
 # 4. Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 require 'gosu'
 
-SAVED_SHAPES = {
-  
-}
-
 class Game < Gosu::Window
   def initialize(width, height)
     super(width, height, false)

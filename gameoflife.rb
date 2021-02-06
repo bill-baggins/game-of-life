@@ -10,7 +10,7 @@ require 'gosu'
 
 class Game < Gosu::Window
   def initialize(width, height)
-    super(width, height, true)
+    super(width, height, false)
     @w_width = width
     @w_height = height
     @pause = true
@@ -37,6 +37,7 @@ class Game < Gosu::Window
 
     # Refresh rate of the screen.
     @refresh_rate = 0.050
+    @temp_coords = [-1, -1]
   end
 
   def draw
@@ -54,9 +55,9 @@ class Game < Gosu::Window
     # Draw "Paused" so that the user knows when it is paused.
     if @pause
       num_of_controls = 6
-      controls = "Spacebar: Pause/Unpause\nE: Erase the current board. \
-                  \nUp/Down Arrows: Update faster/slower\nR: Reset update frequency \
-                  \nLeft Mouse Button: Turn cell on/off\nEsc: Close window"
+      controls = "Spacebar: Pause/Unpause\nE: Erase the current board. \nLeft Mouse Button: Turn cell on \
+                  \nRight Mouse Button: Turn cell off\nUp/Down Arrows: Update faster/slower\nR: Reset update frequency \
+                  \nEsc: Close window"
       @font.draw_text("Paused",   0, 0, 1, 1, 1, Gosu::Color::YELLOW)
       @font.draw_text("Controls:",0, @w_height - (num_of_controls + 1) * 20, 1, 1, 1, Gosu::Color::YELLOW)
       @font.draw_text(controls,   0, @w_height - num_of_controls * 20, 1, 1, 1, Gosu::Color::YELLOW)
@@ -64,7 +65,24 @@ class Game < Gosu::Window
   end
 
   def update
-    if !@pause
+    if @pause
+      # Get user click, which turns a cell on or off.
+      if self.button_down?(Gosu::MS_LEFT) || self.button_down?(Gosu::MS_RIGHT)
+        # Turns raw mouse coordinates to array indices.
+        mx = ((self::mouse_x-7) / 20).round + 1
+        my = ((self::mouse_y-10) / 20).round + 1
+        temp_coords = [mx, my]
+        if temp_coords != @prev_coords
+          @prev_coords = temp_coords
+          # Map mouse coordinates to the grid holding the cells.
+          if self.button_down?(Gosu::MS_LEFT) && @initial_grid[my * @grid_x + mx] == 0
+            @initial_grid[my * @grid_x + mx] = 1
+          elsif self.button_down?(Gosu::MS_RIGHT) && @initial_grid[my * @grid_x + mx] == 1
+            @initial_grid[my * @grid_x + mx] = 0
+          end
+        end
+      end
+    else
       # Loop through the initial_grid array and determine each of the cell's states.
       (1..@grid_x-2).each do |x|
         (1..@grid_y-2).each do |y|
@@ -97,21 +115,6 @@ class Game < Gosu::Window
       @pause = !@pause
     end
 
-    # Get user click, which turns a cell on or off.
-    if id == Gosu::MS_LEFT && @pause
-      # Turns raw mouse coordinates to array indices.
-      mx = ((self::mouse_x-7) / 20).round + 1
-      my = ((self::mouse_y-10) / 20).round + 1
-
-      # Map mouse coordinates to the grid holding the cells.
-      if @initial_grid[my * @grid_x + mx] == 0
-        @initial_grid[my * @grid_x + mx] = 1
-      else
-        @initial_grid[my * @grid_x + mx] = 0
-      end
-
-    end
-
     # Clear the board when the user presses E
     if id == Gosu::KB_E && @pause
       @initial_grid = Array.new(@grid_x * @grid_y, 0)
@@ -125,10 +128,9 @@ class Game < Gosu::Window
     elsif id == Gosu::KB_R
       @refresh_rate = 0.050
     end
-    
   end
 end
 
 if __FILE__ == $0
-  Game.new(1920, 1080).show
+  Game.new(800, 600).show
 end

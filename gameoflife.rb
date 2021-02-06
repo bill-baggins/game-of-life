@@ -10,7 +10,7 @@ require 'gosu'
 
 class Game < Gosu::Window
   def initialize(width, height)
-    super(width, height, false)
+    super(width, height, true)
     @w_width = width
     @w_height = height
     @pause = true
@@ -37,7 +37,6 @@ class Game < Gosu::Window
 
     # Refresh rate of the screen.
     @refresh_rate = 0.050
-    @temp_coords = [-1, -1]
   end
 
   def draw
@@ -54,7 +53,7 @@ class Game < Gosu::Window
 
     # Draw "Paused" so that the user knows when it is paused.
     if @pause
-      num_of_controls = 6
+      num_of_controls = 7
       controls = "Spacebar: Pause/Unpause\nE: Erase the current board. \nLeft Mouse Button: Turn cell on \
                   \nRight Mouse Button: Turn cell off\nUp/Down Arrows: Update faster/slower\nR: Reset update frequency \
                   \nEsc: Close window"
@@ -71,15 +70,11 @@ class Game < Gosu::Window
         # Turns raw mouse coordinates to array indices.
         mx = ((self::mouse_x-7) / 20).round + 1
         my = ((self::mouse_y-10) / 20).round + 1
-        temp_coords = [mx, my]
-        if temp_coords != @prev_coords
-          @prev_coords = temp_coords
-          # Map mouse coordinates to the grid holding the cells.
-          if self.button_down?(Gosu::MS_LEFT) && @initial_grid[my * @grid_x + mx] == 0
-            @initial_grid[my * @grid_x + mx] = 1
-          elsif self.button_down?(Gosu::MS_RIGHT) && @initial_grid[my * @grid_x + mx] == 1
-            @initial_grid[my * @grid_x + mx] = 0
-          end
+        # Map mouse coordinates to the grid holding the cells.
+        if self.button_down?(Gosu::MS_LEFT) && @initial_grid[my * @grid_x + mx] == 0
+          @initial_grid[my * @grid_x + mx] = 1
+        elsif self.button_down?(Gosu::MS_RIGHT) && @initial_grid[my * @grid_x + mx] == 1
+          @initial_grid[my * @grid_x + mx] = 0
         end
       end
     else
@@ -132,5 +127,5 @@ class Game < Gosu::Window
 end
 
 if __FILE__ == $0
-  Game.new(800, 600).show
+  Game.new(1920, 1080).show
 end

@@ -103,7 +103,9 @@ class Game < Gosu::Window
   end
 
   def button_down(id)
-    close if id == Gosu::KB_ESCAPE
+    if id == Gosu::KB_ESCAPE
+      close
+    end
 
     # Space key pauses and unpauses the screen
     if id == Gosu::KB_SPACE

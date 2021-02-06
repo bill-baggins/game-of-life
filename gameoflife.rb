@@ -10,7 +10,7 @@ require 'gosu'
 
 class Game < Gosu::Window
   def initialize(width, height)
-    super(width, height, false)
+    super(width, height, true)
     @w_width = width
     @w_height = height
     @pause = true
@@ -34,6 +34,9 @@ class Game < Gosu::Window
     # The cell's x and y positions on the window.
     @cell_ax = @alive_cell.width
     @cell_ay = @alive_cell.height
+
+    # Refresh rate of the screen.
+    @refresh_rate = 0.050
   end
 
   def draw
@@ -50,17 +53,18 @@ class Game < Gosu::Window
 
     # Draw "Paused" so that the user knows when it is paused.
     if @pause
-      controls = "Spacebar: Pause/Unpause\nE: Erase the current board.\nLeft Mouse Button: Turn cell on/off\nEsc: Close window"
+      num_of_controls = 6
+      controls = "Spacebar: Pause/Unpause\nE: Erase the current board. \
+                  \nUp/Down Arrows: Update faster/slower\nR: Reset update frequency \
+                  \nLeft Mouse Button: Turn cell on/off\nEsc: Close window"
       @font.draw_text("Paused",   0, 0, 1, 1, 1, Gosu::Color::YELLOW)
-      @font.draw_text("Controls:",0, @w_height-100, 1, 1, 1, Gosu::Color::YELLOW)
-      @font.draw_text(controls,   0, @w_height-80, 1, 1, 1, Gosu::Color::YELLOW)
+      @font.draw_text("Controls:",0, @w_height - (num_of_controls + 1) * 20, 1, 1, 1, Gosu::Color::YELLOW)
+      @font.draw_text(controls,   0, @w_height - num_of_controls * 20, 1, 1, 1, Gosu::Color::YELLOW)
     end
   end
 
   def update
-    if @pause
-      # do nothing (prevent grid from updating)
-    else
+    if !@pause
       # Loop through the initial_grid array and determine each of the cell's states.
       (1..@grid_x-2).each do |x|
         (1..@grid_y-2).each do |y|
@@ -81,7 +85,7 @@ class Game < Gosu::Window
 
       @initial_grid   = @output_grid
       @output_grid    = Array.new(@grid_x * @grid_y, 0)
-      sleep(0.100)
+      sleep(@refresh_rate)
     end
   end
 
@@ -113,30 +117,18 @@ class Game < Gosu::Window
       @initial_grid = Array.new(@grid_x * @grid_y, 0)
       @output_grid  = Array.new(@grid_x * @grid_y, 0)
     end
+    
+    if id == Gosu::KB_UP && @refresh_rate > 0.010  
+      @refresh_rate -= 0.010
+    elsif id == Gosu::KB_DOWN && @refresh_rate < 1.000
+      @refresh_rate += 0.010
+    elsif id == Gosu::KB_R
+      @refresh_rate = 0.050
+    end
+    
   end
 end
 
 if __FILE__ == $0
-  width, height = 0, 0
-  loop do
-    # Get user input.
-    puts "Enter in the width of your window (800-1920)"
-    width = gets.chomp.to_i
-    puts "Enter in the height of your window (500-1080)"
-    height = gets.chomp.to_i
-
-    if width < 800 || width > 1920 || height < 500 || height > 1080
-      puts "One of your inputs was invalid. Try again."
-      redo
-    end
-
-    # Start the game.
-    Game.new(width, height).show
-    break
-  end
+  Game.new(1920, 1080).show
 end
-
-# top = @initial_grid[((y-1)*@grid_x+(x-1))..((y-1)*@grid_x+(x+1))].sum
-# mid = @initial_grid[((y-0)*@grid_x+(x-1))..((y-0)*@grid_x+(x+1))].sum - 1
-# btm = @initial_grid[((y+1)*@grid_x+(x-1))..((y+1)*@grid_x+(x+1))].sum
-# print "#{top} #{mid} #{btm}"

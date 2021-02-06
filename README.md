@@ -22,3 +22,4 @@ Ruby must be installed on your computer. You can install version 2.7.2 of Ruby h
 5. Follow the prompts' directions inside of the console window.
 6. When done, another window should launch with an empty black grid and some yellow text.
    The text gives directive on further use of the application.
+7. Have fun!

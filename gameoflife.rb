@@ -29,7 +29,7 @@ class Game < Gosu::Window
     @initial_grid   = Array.new(@grid_x * @grid_y, 0)
     @output_grid    = Array.new(@grid_x * @grid_y, 0)
 
-    @cell_gpos  = -> (x, y) {return @initial_grid[y * @grid_x + x]}
+    @cell_gpos  = -> (x, y) { return @initial_grid[y * @grid_x + x] }
 
     # The cell's x and y positions on the window.
     @cell_ax = @alive_cell.width
